@@ -1,16 +1,40 @@
 from queue import PriorityQueue
+from nodo import Nodo
+from utils import imprimir_arvore
 class BancoDeDados:
+
     pacientes = []  # lista compartilhada entre todas as instâncias
     fila = PriorityQueue () # fila de prioridade de atendimento.
 
     def __init__(self, nome, idade):    # Cadastro de paciente não cadastrados
         self.nome = nome
         self.idade = int(idade)
+        self.raiz = Nodo(valor=nome, tipo="paciente") # raiz da árvore
+        self.historico = [] #lista de atendimentos
 
     def cadastrar(self):
-        BancoDeDados.pacientes.append(self.nome)
+        BancoDeDados.pacientes.append(self)
         print(f"Pronto {self.nome}, você foi cadastrado!\nIdade: {self.idade}")
         self.adicionar_fila() # Adiciona automaticamente à fila
+    
+    def registrar_atendimento(self, descricao):
+        self.historico.append(descricao)
+        print(f"Atendimento registrado: {descricao}")
+    
+    def adicionar_impacto(self, nodo_impacto):
+        self.raiz.adicionar_filho(nodo_impacto)
+        print(f"Impacto'{nodo_impacto.valor} associado ao paciente {self.nome}")
+    
+    def consultar_paciente(self):
+        print(f"\nPaciente: {self.nome} | idade: {self.idade}")
+        print("Historico clinico:")
+        if self.historico:
+            for h in self.historico:
+                print(f"-{h}")
+        else:
+            print("Nenhum atendimento registrado.")
+        print("\nImpactos Ambientais e Planos PDCA: ")
+        imprimir_arvore(self.raiz)
 
     @classmethod
     def verificacao(cls, nome):   # verificação de participantes já cadastrados
@@ -25,7 +49,7 @@ class BancoDeDados:
         print(f"Eficácia geral: {eficacia_geral:.2f}%")
     
     def estrato(self):
-        """Retorna um rótulo simples de risco baseado na idade."""
+        # Retorna um rótulo simples de risco baseado na idade.
         if self.idade < 30:
             return "baixo"
         elif self.idade < 60:
@@ -49,3 +73,4 @@ class BancoDeDados:
         while not cls.fila.empty():
             prioridade, paciente = cls.fila.get()
             print(f"Atendendo {paciente.nome} (risco: {paciente.estrato()})")
+    
