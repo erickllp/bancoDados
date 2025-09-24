@@ -1,4 +1,3 @@
-
 from BancoDeDados import BancoDeDados
 
 def menu():
@@ -12,16 +11,22 @@ def menu():
             print("")
             nome = input("Informe seu nome: ")
             idade = input("Informe sua idade: ")
+            idade = int(idade) 
             paciente = BancoDeDados(nome, idade)
+            
 
             if BancoDeDados.verificacao(nome):
                 print(f"{nome}, você já está cadastrado!")
                 print("-----------------------------------")
             else:
-                paciente.cadastrar()
+                paciente.cadastrar() # Cadastra na lista de pacientes
+                print(f"Classificação de Risco:{paciente.estrato()}")
                 print("-----------------------------------")
-
+                
         elif cadastro == "2":
+            BancoDeDados.atender_fila()
+
+        elif cadastro == "3":
             nome = input("Digite seu nome para verificar cadastro: ")
             if BancoDeDados.verificacao(nome):
                 print(f"{nome}, seu resultado será disponibilizado em breve.")
@@ -34,6 +39,7 @@ def menu():
 
 if __name__ == "__main__":
     menu()
+
 
 
 
