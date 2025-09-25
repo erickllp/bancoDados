@@ -73,4 +73,8 @@ class BancoDeDados:
         while not cls.fila.empty():
             prioridade, paciente = cls.fila.get()
             print(f"Atendendo {paciente.nome} (risco: {paciente.estrato()})")
+<<<<<<< Updated upstream
     
+=======
+        
+>>>>>>> Stashed changes
